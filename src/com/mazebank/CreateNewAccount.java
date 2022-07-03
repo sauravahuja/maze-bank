@@ -28,8 +28,7 @@ public class CreateNewAccount {
 		int newCustomerID = getNewCustomerID();
 		int newAccountID = getNewAccountID();
 		String newCurrentDate = getCurrentDate();
-
-		System.out.println("name" + name);
+		
 		try {
 			String query = "insert into customer values (?,?,?,?,?,?)";
 
@@ -42,7 +41,6 @@ public class CreateNewAccount {
 			myStmt.setString(5, newCurrentDate);
 			myStmt.setString(6, DOB);
 
-			System.out.println(myStmt);
 			ResultSet Rs = myStmt.executeQuery();
 			if (Rs != null) {
 				System.out.println("Customer Created");
@@ -60,7 +58,6 @@ public class CreateNewAccount {
 			myStmtAcc.setInt(6, acctype);
 			myStmtAcc.setInt(7, 0);
 
-			System.out.println(myStmt);
 			ResultSet AccRs = myStmtAcc.executeQuery();
 			if (AccRs != null) {
 				System.out.println("Account Created");
