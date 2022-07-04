@@ -73,8 +73,8 @@ public class MazeInitializer {
 				String senderAccountNumber = reader.readLine();
 				System.out.println("Enter reciver account number: ");
 				String receiverAccountNumber = reader.readLine();
-				System.out.println("Enter transaction type(1. Cash Withdrawl 2. Cash Deposit 3.Check Payment 4. Card Payment)");
-				String typeOfTransaction = reader.readLine();
+//				System.out.println("Enter transaction type(1. Cash Withdrawl 2. Cash Deposit 3.Check Payment 4. Card Payment)");
+				String typeOfTransaction = "2";
 				System.out.println("Enter the Amount");
 				String depositAmount = reader.readLine();
 				
@@ -84,8 +84,16 @@ public class MazeInitializer {
 				break;
 				
 			case 3:
-				System.out.println("Withdraw Money");
+				System.out.println("Withdraw process initiated !");
+				System.out.println("Enter your account number");
+				String withdrawAccountNumber = reader.readLine();
+				System.out.println("Enter Amount");
+				String withdrawAmount = reader.readLine();
+				String withdrawtype = "1";
+				WithdrawMoney wm = new WithdrawMoney();
+				wm.WithdrawMoneyInit(withdrawAccountNumber, withdrawAmount, withdrawtype);
 				break;
+			
 			}
 		}
 

@@ -7,43 +7,34 @@ import java.sql.Statement;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
-public class DepositMoney {
+public class WithdrawMoney {
 	Connection conn;
 	int newTransactionID;
 	private String currentDate;
 	CheckBalance cb;
 
-	public DepositMoney() {
+	public WithdrawMoney() {
 		DBConnection connection = new DBConnection();
 		conn = connection.getConnection();
 		currentDate = getCurrentDate();
 		cb = new CheckBalance();
 	}
 
-	public void depositMoney(String sender, String receiver, String type, String amount) {
-		int Bal = Integer.parseInt(cb.checkAccountBalance(sender));
-		int minbalAfterPossibleTransaction = Bal - Integer.parseInt(amount);
-		
-		if (checkIfAccountExist(sender) && checkIfAccountExist(receiver)) {
-			if (Integer.parseInt(cb.checkAccountBalance(sender)) > 0 && minbalAfterPossibleTransaction >= 500) {
+	public void WithdrawMoneyInit(String accountNumber, String amount, String type) {
+
+		if (checkIfAccountExist(accountNumber)) {
+			int Bal = Integer.parseInt(cb.checkAccountBalance(accountNumber));
+			int minbalAfterPossibleTransaction = Bal - Integer.parseInt(amount);
+			if (Integer.parseInt(cb.checkAccountBalance(accountNumber)) > 0 && minbalAfterPossibleTransaction >= 500) {
 				try {
-					String depositMoneyToReceiver = "update accounts set balance = balance + ? where account_id = ?";
+					String withDrawMoney = "update accounts set balance = balance - ? where account_id = ?";
 
-					PreparedStatement depositStatement = conn.prepareStatement(depositMoneyToReceiver);
+					PreparedStatement withdrawStatement = conn.prepareStatement(withDrawMoney);
 
-					depositStatement.setString(1, amount);
-					depositStatement.setString(2, receiver);
+					withdrawStatement.setString(1, amount);
+					withdrawStatement.setString(2, accountNumber);
 
-					depositStatement.executeQuery();
-
-					String deductMoneyFromSender = "update accounts set balance = balance - ? where account_id = ?";
-
-					PreparedStatement deductStatement = conn.prepareStatement(deductMoneyFromSender);
-
-					deductStatement.setString(1, amount);
-					deductStatement.setString(2, sender);
-
-					deductStatement.executeQuery();
+					withdrawStatement.executeQuery();
 
 					String newTransaction = "insert into transaction values (?,?,?,?,?,?)";
 					PreparedStatement newTransactionStatement = conn.prepareStatement(newTransaction);
@@ -51,17 +42,16 @@ public class DepositMoney {
 					newTransactionStatement.setString(1, String.valueOf(getNewTransactionID()));
 					newTransactionStatement.setString(2, currentDate);
 					newTransactionStatement.setString(3, amount);
-					newTransactionStatement.setString(4, sender);
+					newTransactionStatement.setString(4, accountNumber);
 					newTransactionStatement.setString(5, type);
-					newTransactionStatement.setString(6, receiver);
+					newTransactionStatement.setString(6, accountNumber);
 
 					newTransactionStatement.executeQuery();
 				} catch (Exception e) {
 					System.out.println(e);
 				}
-			}
-			else {
-				//Todo: throw custom exception
+			} else {
+				// Todo: throw custom exception
 				System.out.println("Not enough balance / Min Limit Crossing");
 				System.out.println("Aborting Transaction");
 			}
