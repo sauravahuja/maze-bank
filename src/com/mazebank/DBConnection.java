@@ -18,9 +18,9 @@ public class DBConnection {
 			String password = "system";
 
 			conn = DriverManager.getConnection(url, username, password);
-			if (conn != null) {
-				System.out.println("Database Connection Successful");
-			}
+//			if (conn != null) {
+////				System.out.println("Database Connection Successful");
+//			}
 		} catch (Exception e) {
 			System.out.println("Connection Exception: " + e);
 		}

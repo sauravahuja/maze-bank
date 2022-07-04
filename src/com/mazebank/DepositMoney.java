@@ -20,7 +20,7 @@ public class DepositMoney {
 		cb = new CheckBalance();
 	}
 
-	public void depositMoney(String sender, String receiver, String type, String amount) {
+	public void depositMoney(String sender, String receiver, String type, String amount) throws Exception {
 		int Bal = Integer.parseInt(cb.checkAccountBalance(sender));
 		int minbalAfterPossibleTransaction = Bal - Integer.parseInt(amount);
 		
@@ -62,12 +62,12 @@ public class DepositMoney {
 			}
 			else {
 				//Todo: throw custom exception
-				System.out.println("Not enough balance / Min Limit Crossing");
 				System.out.println("Aborting Transaction");
+				throw new AmountInsufficient("The entered amount is either greater than the existing balance or its is crossing the minimum balance of 500");
 			}
 		} else {
 			// Todo: throw custom exception
-			System.out.println("Account doesnt exist !");
+			throw new AccountDoesNotExist("The entered account number doesnt exsit !");
 		}
 	}
 

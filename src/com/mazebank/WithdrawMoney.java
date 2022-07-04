@@ -20,7 +20,7 @@ public class WithdrawMoney {
 		cb = new CheckBalance();
 	}
 
-	public void WithdrawMoneyInit(String accountNumber, String amount, String type) {
+	public void WithdrawMoneyInit(String accountNumber, String amount, String type) throws Exception {
 
 		if (checkIfAccountExist(accountNumber)) {
 			int Bal = Integer.parseInt(cb.checkAccountBalance(accountNumber));
@@ -52,12 +52,13 @@ public class WithdrawMoney {
 				}
 			} else {
 				// Todo: throw custom exception
-				System.out.println("Not enough balance / Min Limit Crossing");
 				System.out.println("Aborting Transaction");
+				throw new AmountInsufficient(
+						"The entered amount is either greater than the existing balance or its is crossing the minimum balance of 500");
 			}
 		} else {
 			// Todo: throw custom exception
-			System.out.println("Account doesnt exist !");
+			throw new AccountDoesNotExist("The entered account number doesnt exsit !");
 		}
 	}
 
