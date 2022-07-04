@@ -66,6 +66,26 @@ public class MazeInitializer {
 				CheckBalance cb = new CheckBalance();
 				System.out.println("Balance for Account Number " + accountNumber +" is: " +cb.checkAccountBalance(accountNumber));
 				break;
+				
+			case 2:
+				System.out.println("Deposit Money process initiated !");
+				System.out.println("Enter sender account number: ");
+				String senderAccountNumber = reader.readLine();
+				System.out.println("Enter reciver account number: ");
+				String receiverAccountNumber = reader.readLine();
+				System.out.println("Enter transaction type(1. Cash Withdrawl 2. Cash Deposit 3.Check Payment 4. Card Payment)");
+				String typeOfTransaction = reader.readLine();
+				System.out.println("Enter the Amount");
+				String depositAmount = reader.readLine();
+				
+				DepositMoney dm = new DepositMoney();
+				dm.depositMoney(senderAccountNumber, receiverAccountNumber, typeOfTransaction, depositAmount);
+				
+				break;
+				
+			case 3:
+				System.out.println("Withdraw Money");
+				break;
 			}
 		}
 
